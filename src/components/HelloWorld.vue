@@ -1,16 +1,20 @@
 <script setup lang="ts">
-import { ref } from "vue";
-
 defineProps<{ msg: string }>();
 
-const count = ref(0);
+const { x, y } = useMouse();
+const { count, inc, dec } = useCounter();
 </script>
 
 <template>
   <h1>{{ msg }}</h1>
 
   <div class="card">
-    <button type="button" @click="count++">count is {{ count }}</button>
+    <h3>Mouse: {{ x }} x {{ y }}</h3>
+    <h3>
+      Counter: {{ count }}
+      <a @click="inc()" style="margin-right: 10px; cursor: pointer">+</a>
+      <a @click="dec()" style="cursor: pointer">-</a>
+    </h3>
     <p>
       Edit
       <code>components/HelloWorld.vue</code> to test HMR

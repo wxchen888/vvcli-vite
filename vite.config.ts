@@ -23,6 +23,7 @@ export default defineConfig(({ mode }) => {
             "@/api/request": [["default", "request"]],
             "@vueuse/core": [
               "useMouse", // import { useMouse } from '@vueuse/core',
+              "useCounter", // don not import all core function because it is huge
               ["useFetch", "useMyFetch"] // import { useFetch as useMyFetch } from '@vueuse/core',
             ]
           }
