@@ -2,13 +2,18 @@ import { defineConfig, loadEnv } from "vite";
 import vue from "@vitejs/plugin-vue";
 import Components from "unplugin-vue-components/vite";
 import AutoImport from "unplugin-auto-import/vite";
-import { NaiveUiResolver } from "unplugin-vue-components/resolvers";
+import {
+  NaiveUiResolver,
+  ElementPlusResolver
+} from "unplugin-vue-components/resolvers";
 import { resolve } from "path";
 import vueJsx from "@vitejs/plugin-vue-jsx";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
-  const { PROXY_HOST } = loadEnv(mode, process.cwd(), "");
+  const { APP_PROXY_HOST } = loadEnv(mode, process.cwd(), "");
+  console.log("APP_PROXY_HOST", APP_PROXY_HOST);
+
   return {
     plugins: [
       vue(),
@@ -36,7 +41,7 @@ export default defineConfig(({ mode }) => {
       Components({
         dirs: ["src/components"],
         dts: "src/components.d.ts",
-        resolvers: [NaiveUiResolver()]
+        resolvers: [NaiveUiResolver(), ElementPlusResolver()]
       })
     ],
     resolve: {
@@ -47,9 +52,9 @@ export default defineConfig(({ mode }) => {
     server: {
       host: true,
       proxy: {
-        "/flag/xxx/xx": {
-          target: `http://${PROXY_HOST}`,
-          rewrite: (path) => path.replace("/flag", "")
+        "/proxyapi": {
+          target: `http://${APP_PROXY_HOST}`,
+          rewrite: (path) => path.replace("/proxyapi", "")
         }
       }
     }
